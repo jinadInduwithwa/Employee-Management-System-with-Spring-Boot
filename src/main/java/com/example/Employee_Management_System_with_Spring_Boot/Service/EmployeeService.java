@@ -5,10 +5,14 @@ import com.example.Employee_Management_System_with_Spring_Boot.Entity.Employee;
 import com.example.Employee_Management_System_with_Spring_Boot.Repository.EmployeeRepository;
 import com.example.Employee_Management_System_with_Spring_Boot.Util.VarList;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional
 @Service
@@ -35,5 +39,12 @@ public class EmployeeService {
         }else{
             return VarList.RSP_NO_DATA_FOUND;
         }
+    }
+
+    public List<EmployeeDTO> getAllEmployee(){
+        List<Employee> employeeList = employeeRepository.findAll();
+        return modelMapper.map(employeeList, new TypeToken<ArrayList<EmployeeDTO>>(){
+        }.getType());
+
     }
 }
