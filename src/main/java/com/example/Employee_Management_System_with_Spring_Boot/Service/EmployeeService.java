@@ -45,6 +45,14 @@ public class EmployeeService {
         List<Employee> employeeList = employeeRepository.findAll();
         return modelMapper.map(employeeList, new TypeToken<ArrayList<EmployeeDTO>>(){
         }.getType());
+    }
 
+    public EmployeeDTO searchEmployee(int empID){
+        if(employeeRepository.existsById(empID)){
+            Employee employee = employeeRepository.findById(empID).orElse(null);
+            return modelMapper.map(employee,EmployeeDTO.class);
+        }else{
+            return null;
+        }
     }
 }

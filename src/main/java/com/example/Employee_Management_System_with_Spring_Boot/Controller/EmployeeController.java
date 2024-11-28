@@ -104,7 +104,7 @@ public class EmployeeController {
         try{
             List<EmployeeDTO> employeeDTOList = employeeService.getAllEmployee();
             responseDTO.setCode(VarList.RSP_SUCCESS);
-            responseDTO.setMessage("Successfully Retrive Employee");
+            responseDTO.setMessage("Successfully Retrive Employees");
             responseDTO.setContent(employeeDTOList);
             return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
 
@@ -114,6 +114,31 @@ public class EmployeeController {
             responseDTO.setContent(null);
             return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/searchEmployeeById/{empID}")
+    public ResponseEntity searchEmployee(@PathVariable int empID){
+        try{
+            EmployeeDTO employeeDTO = employeeService.searchEmployee(empID);
+            if (employeeDTO != null){
+                responseDTO.setCode(VarList.RSP_SUCCESS);
+                responseDTO.setMessage("Successfully Retrive Employee");
+                responseDTO.setContent(employeeDTO);
+                return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+            } else {
+                responseDTO.setCode(VarList.RSP_NO_DATA_FOUND);
+                responseDTO.setMessage("Employee Not Found");
+                responseDTO.setContent(null);
+                return new ResponseEntity(responseDTO, HttpStatus.BAD_REQUEST);
+
+            }
+        }catch (Exception e){
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 
